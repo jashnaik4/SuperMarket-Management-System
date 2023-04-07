@@ -44,6 +44,22 @@ def updateCustomer(request,customer_id):
     cursor.execute("SELECT * FROM customers WHERE customer_id = " + str(customer_id))
     customer = cursor.fetchone()
     return render(request, 'customers_update.html', {"Customers": customer})
+def showEmployees(request):
+    cursor = connection.cursor()
+    if request.method == 'POST':
+        sql_query = "INSERT INTO employees VALUES(" + request.POST["employee_id"] +", '" + request.POST["name"] + "', '" +request.POST["address"] + "', " + request.POST["number"]+", " +request.POST["position"]+")"
+        try :
+            cursor.execute(sql_query)
+        except :
+            print("ERROR : SQL Query -> " + sql_query)
+    cursor.execute("SELECT * FROM employees")
+    results = cursor.fetchall()
+    return render(request, 'employees.html', {'Employees': results})
+def updateEmployees(request,employee_id):
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM customers WHERE employee_id = " + str(employee_id))
+    customer = cursor.fetchone()
+    return render(request, 'customers_update.html', {"Employees": customer})
 
 def commitUpdate(request, id):
     cursor = connection.cursor()
