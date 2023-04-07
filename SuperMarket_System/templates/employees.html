@@ -1,32 +1,33 @@
 {% extends 'base.html' %}
 
 {% block BASE_HTML %}
-
+        <title>Employess</title>
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Employees</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
         </div>
       </div>
-      <form>
+      <form action ="/employees/" method = "post">
+        {% csrf_token %}
   <div class="form-group">
-    <label for="exampleFormControlInput1">Employee ID</label>
-      <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Serial No.">
+    <label for="employee_id">Employee ID</label>
+      <input type="text" class="form-control" id="employee_id" name="employee_id" placeholder="Serial No.">
   </div><br>
         <div class="form-group">
-          <label for="exampleFormControlSelect1">Employee Name</label>
-          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Jash Naik">
+          <label for="name">Employee Name</label>
+          <input type="text" class="form-control" id="name"  name="name" placeholder="Jash Naik">
         </div><br>
         <div class="form-group">
-          <label for="exampleFormControlSelect2">Address</label>
-          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="2, VidyaVihar, Pilani">
+          <label for="address">Address</label>
+          <input type="text" class="form-control" id="address" name="address" placeholder="2, VidyaVihar, Pilani">
         </div><br>
         <div class="form-group">
-          <label for="exampleFormControlTextarea1">Contact Info</label>
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" placeholder="90XXXX2423"></textarea>
+          <label for="number">Contact Info</label>
+          <textarea class="form-control" id="number" rows="1" name="number" placeholder="90XXXX2423"></textarea>
         </div><br>
           <div class="form-group">
-          <label for="exampleFormControlTextarea1">Job Position</label>
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" placeholder="Eg. Salesman"></textarea>
+          <label for="job_position">Job Position</label>
+          <textarea class="form-control" id="job_position" rows="1" name="position" placeholder="Eg. Salesman"></textarea>
         </div><br>
         <button type="submit" class="btn btn-primary mb-2">Add Employee to Database</button>
       </form>
@@ -41,6 +42,7 @@
               <th scope="col">Address</th>
               <th scope="col">Contact Info</th>
               <th scope="col">Job Position</th>
+               <th scope="col">Update/Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -51,6 +53,8 @@
               <td>{{Employees.2}}</td>
               <td>{{Employees.3}}</td>
               <td>{{Employees.4}}</td>
+              <td><a href="/employees/delete_customer/{{Employees.0}}" class="btn btn-danger md-sm"> Delete </a>
+                  <a href="/employees/update_customer/{{Employees.0}}" class="btn btn-success md-sm"> Update </a>
             </tr>
             {% endfor %}
           </tbody>

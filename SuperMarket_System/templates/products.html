@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block BASE_HTML %}
+      <title>Products</title>
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Products</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+        </div>
+      </div>
+      <form action ="/products/" method = "post">
+        {% csrf_token %}
+  <div class="form-group">
+    <label for="p_id">Product ID</label>
+      <input type="text" class="form-control" id="p_id" name="p_id" placeholder="Serial No.">
+  </div><br>
+        <div class="form-group">
+          <label for="name">Product Name</label>
+          <input type="text" class="form-control" id="name" name="name" placeholder="Apple">
+        </div><br>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <input type="text" class="form-control" id="description" name="description"  placeholder="Eg. Fruit">
+        </div><br>
+        <div class="form-group">
+          <label for="number">Price</label>
+          <input type="number" class="form-control" id="number" name="number" placeholder="100.00">
+        </div><br>
+        <div class="form-group">
+          <label for="quantity">Quantity</label>
+          <input type="number" class="form-control" id="quantity" name="quantity" placeholder="100.00">
+        </div><br>
+        <button type="submit" class="btn btn-primary mb-2">Add Product to Database</button>
+      </form>
+      <div>
+      <h2>Products in Database</h2>
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th scope="col">Product ID#</th>
+              <th scope="col">Product Name</th>
+              <th scope="col">Description</th>
+              <th scope="col">Price</th>
+              <th scope="col">Update/Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for Products in Product%}
+            <tr>
+              <td>{{Products.0}}</td>
+              <td>{{Products.1}}</td>
+              <td>{{Products.2}}</td>
+              <td>{{Products.3}}</td>
+              <td><a href="/products/delete_product/{{Products.0}}" class="btn btn-danger md-sm"> Delete </a>
+                  <a href="/products/update_products/{{Products.0}}" class="btn btn-success md-sm"> Update </a>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table></div>
+      </div>
+{% endblock %}

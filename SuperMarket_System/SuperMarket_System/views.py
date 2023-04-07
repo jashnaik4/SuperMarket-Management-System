@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from django.db import connection
 
-from SuperMarket_System.models import Products
-from SuperMarket_System.models import Customers
-from SuperMarket_System.models import SaleRecord
-from SuperMarket_System.models import InventoryReport
-
+# from SuperMarket_System.models import Products
+# from SuperMarket_System.models import Customers
+# from SuperMarket_System.models import SaleRecord
+# from SuperMarket_System.models import InventoryReport
+# from SuperMarket_System.models import Employees
+#
 
 def dictfetchall(cursor):
     "Return all rows from a cursor as a dict"
@@ -44,22 +45,6 @@ def updateCustomer(request,customer_id):
     cursor.execute("SELECT * FROM customers WHERE customer_id = " + str(customer_id))
     customer = cursor.fetchone()
     return render(request, 'customers_update.html', {"Customers": customer})
-def showEmployees(request):
-    cursor = connection.cursor()
-    if request.method == 'POST':
-        sql_query = "INSERT INTO employees VALUES(" + request.POST["employee_id"] +", '" + request.POST["name"] + "', '" +request.POST["address"] + "', " + request.POST["number"]+", " +request.POST["position"]+")"
-        try :
-            cursor.execute(sql_query)
-        except :
-            print("ERROR : SQL Query -> " + sql_query)
-    cursor.execute("SELECT * FROM employees")
-    results = cursor.fetchall()
-    return render(request, 'employees.html', {'Employees': results})
-def updateEmployees(request,employee_id):
-    cursor = connection.cursor()
-    cursor.execute("SELECT * FROM customers WHERE employee_id = " + str(employee_id))
-    customer = cursor.fetchone()
-    return render(request, 'customers_update.html', {"Employees": customer})
 
 def commitUpdate(request, id):
     cursor = connection.cursor()
@@ -71,6 +56,55 @@ def commitUpdate(request, id):
             print("ERROR : SQL Query -> " + sql_query)
 
     return redirect("/customers/")
+
+def showEmployees(request):
+    cursor = connection.cursor()
+    if request.method == 'POST':
+        # sql_query = "INSERT INTO customers VALUES(" + request.POST["c_id"] +", '" + request.POST["name"] + "', '" +request.POST["address"] + "', " + request.POST["number"]+")"
+        sql_query = "INSERT INTO employees VALUES(" + request.POST["employee_id"] + ", '" + request.POST["name"] + "', '" +request.POST["address"] + "', " + request.POST["number"] + "', " +request.POST["job_position"]+")"
+        try :
+            cursor.execute(sql_query)
+        except :
+            print("ERROR : SQL Query -> " + sql_query)
+    cursor.execute("SELECT * FROM employees")
+    results = cursor.fetchall()
+    return render(request, 'employees.html', {'Employees': results})
+
+def updateEmployees(request,employee_id):
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM employees WHERE employee_id = " + str(employee_id))
+    employee = cursor.fetchone()
+    return render(request, 'employees_update.html', {"Employees": employee})
+
+def deleteEmployees(request,employee_id):
+    cursor = connection.cursor()
+    sql_query = "DELETE FROM employees WHERE employee_id = " + str(employee_id)
+    cursor.execute(sql_query)
+    return redirect("/employees/")
+
+def commitEmpUpdate(request, id):
+    cursor = connection.cursor()
+    if request.method == 'POST':
+        sql_query = "UPDATE  SET employees_name = '" + request.POST["name"] + "', address =  '" +request.POST["address"] + "', contact_information = " + request.POST["number"] + "',job_position =  " +request.POST["job_position"] + " WHERE employee_id = " + str(id)
+        try:
+            cursor.execute(sql_query)
+        except:
+            print("ERROR : SQL Query -> " + sql_query)
+
+    return redirect("/employees/")
+
+def showProductsNew(request):
+    cursor = connection.cursor()
+    if request.method == 'POST':
+        sql_query = "INSERT INTO products VALUES(" + request.POST["p_id"] +", '" + request.POST["name"] + "', '" +request.POST["description"] + "', " + request.POST["number"]+"', " + request.POST["quantity"]+")"
+        try :
+            cursor.execute(sql_query)
+        except :
+            print("ERROR : SQL Query -> " + sql_query)
+    cursor.execute("SELECT * FROM products")
+    results = cursor.fetchall()
+    return render(request, 'products.html', {'Products': results})
+
 
 def showSales(request):
     cursor = connection.cursor()

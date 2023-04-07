@@ -26,7 +26,17 @@ urlpatterns = [
     path('customers/delete_customer/<int:customer_id>', views.deleteCustomer),
     path('customers/update_customer/<int:customer_id>', views.updateCustomer),
     path('customers/update_commit/<int:id>', views.commitUpdate),
+
     path('employees/', views.showEmployees),
+    path('employees/delete_employee/<int:employee_id>', views.deleteEmployees),
+    path('employees/update_employee/<int:employee_id>', views.updateEmployees),
+    path('employees/update_commit/<int:id>', views.commitEmpUpdate),
+
+    path('products/', views.showProductsNew),
+    # path('products/delete_product/<int:product_id>', views.deleteProduct),
+    # path('customers/update_product/<int:product_id>', views.updateProduct),
+    # path('products/update_commit/<int:id>', views.commitProductUpdate),
+
     path('sale_report/', views.showSales),
     path('inventory_report/', views.showInventoryReport),
     path('employee_report/', views.showEmployeeReport),
