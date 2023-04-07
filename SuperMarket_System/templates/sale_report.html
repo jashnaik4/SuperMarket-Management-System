@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block BASE_HTML %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Sale Report</h1>
+    <div class="btn-toolbar mb-2 mb-md-0"></div>
+</div>
+
+<div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th scope="col">Sale ID #</th>
+              <th scope="col">Customer Name</th>
+              <th scope="col">Employee Name</th>
+              <th scope="col">Sale Date</th>
+              <th scope="col">Product Name</th>
+                <th scope="col">Quantity Sold</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for SaleRecord in SaleRecord%}
+            <tr>
+              <td>{{SaleRecord.0}}</td>
+              <td>{{SaleRecord.1}}</td>
+              <td>{{SaleRecord.2}}</td>
+              <td>{{SaleRecord.3}}</td>
+                <td>{{SaleRecord.4}}</td>
+                <td>{{SaleRecord.5}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+</div>
+{% endblock %}

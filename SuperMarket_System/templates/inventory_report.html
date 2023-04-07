@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block BASE_HTML %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Inventory Report</h1>
+    <div class="btn-toolbar mb-2 mb-md-0"></div>
+</div>
+
+<div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th scope="col">Product ID #</th>
+              <th scope="col">Product Name</th>
+              <th scope="col">Price</th>
+              <th scope="col">Quantity in stock</th>
+              <th scope="col">Quantity sold</th>
+                <th scope="col">Revenue</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for InventoryReport in InventoryReport %}
+            <tr>
+              <td>{{InventoryReport.0}}</td>
+              <td>{{InventoryReport.1}}</td>
+              <td>{{InventoryReport.2}}</td>
+              <td>{{InventoryReport.3}}</td>
+                <td>{{InventoryReport.4}}</td>
+                <td>{{InventoryReport.5}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+</div>
+{% endblock %}

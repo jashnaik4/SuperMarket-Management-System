@@ -78,3 +78,15 @@ class PurchaseRecord(models.Model):
     supplier_name = models.CharField(max_length=255)
     purchase_date = models.DateField()
     quantity_purchased = models.IntegerField()
+
+
+class InventoryReport(models.Model):
+    product_id = models.ForeignKey(Products, models.DO_NOTHING)
+    product_name = models.CharField(max_length=255)
+    price = models.IntegerField()
+    quantity_in_stock = models.IntegerField()
+    quantity_sold = models.IntegerField()
+    revenue = models.IntegerField()
+
+
+

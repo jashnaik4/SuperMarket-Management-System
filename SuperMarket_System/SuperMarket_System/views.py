@@ -3,6 +3,8 @@ from django.db import connection
 
 from SuperMarket_System.models import Products
 from SuperMarket_System.models import Customers
+from SuperMarket_System.models import SaleRecord
+from SuperMarket_System.models import InventoryReport
 
 
 def dictfetchall(cursor):
@@ -53,3 +55,23 @@ def commitUpdate(request, id):
             print("ERROR : SQL Query -> " + sql_query)
 
     return redirect("/customers/")
+
+def showSales(request):
+    cursor = connection.cursor()
+    cursor.execute("SELECT sale_id,customer_name,employee_name, sale_date, product_name, quantity_sold FROM sales NATURAL JOIN sale_items NATURAL JOIN (SELECT product_id, product_name   FROM products) AS a NATURAL JOIN (SELECT customer_id, customer_name FROM customers) AS b NATURAL LEFT JOIN (SELECT employee_name, employee_id FROM employees) AS c;")
+    result = cursor.fetchall()
+    return render(request, 'sale_report.html', {'SaleRecord':result})
+
+
+def showInventoryReport(request):
+    cursor = connection.cursor()
+    cursor.execute("SELECT product_id, product_name, price, quantity_in_stock, quantity_sold, (price*quantity_sold) as revenue FROM products NATURAL LEFT JOIN (SELECT product_id, sum(quantity_sold) as quantity_sold FROM sale_items GROUP BY product_id) AS a ORDER BY revenue DESC;")
+    result = cursor.fetchall()
+    return render(request, 'inventory_report.html', {'InventoryReport': result})
+
+
+def showEmployeeReport(request):
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM employees NATURAL LEFT JOIN (SELECT employee_id, count(DISTINCT(sale_id))as number_of_sales, sum(revenue) AS cumulative_sales FROM sales NATURAL JOIN (SELECT sale_id, sum(price* quantity_sold) as revenue FROM sale_items NATURAL JOIN products GROUP BY sale_id) AS b GROUP BY employee_id) AS b;")
+    result = cursor.fetchall()
+    return render(request, 'employee_report.html', {'EmployeeReport': result})
