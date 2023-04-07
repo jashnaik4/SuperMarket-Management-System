@@ -127,6 +127,41 @@ def commitProductUpdate(request, id):
             print("ERROR : SQL Query -> " + sql_query)
     return redirect("/products/")
 
+def showSuppliers(request):
+    cursor = connection.cursor()
+    if request.method == 'POST':
+        sql_query = "INSERT INTO suppliers VALUES(" + request.POST["s_id"] +", '" + request.POST["name"] + "', '" +request.POST["address"] + "', " + request.POST["number"]+")"
+        try :
+            cursor.execute(sql_query)
+        except :
+            print("ERROR : SQL Query -> " + sql_query)
+    cursor.execute("SELECT * FROM suppliers")
+    results = cursor.fetchall()
+    return render(request, 'suppliers.html', {'Suppliers': results})
+
+def deleteSupplier(request,supplier_id):
+    cursor = connection.cursor()
+    sql_query = "DELETE FROM suppliers WHERE supplier_id = " + str(supplier_id)
+    cursor.execute(sql_query)
+    return redirect("/suppliers/")
+
+def updateSupplier(request,supplier_id):
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM suppliers WHERE supplier_id = " + str(supplier_id))
+    supplier = cursor.fetchone()
+    return render(request, 'suppliers_update.html', {"Supplier": supplier})
+
+def commitSupplierUpdate(request, id):
+    cursor = connection.cursor()
+    if request.method == 'POST':
+        sql_query = "UPDATE suppliers SET supplier_name = '" + request.POST["name"] + "', address =  '" +request.POST["address"] + "', contact_information = " + request.POST["number"] + " WHERE supplier_id = " + str(id)
+        try :
+            cursor.execute(sql_query)
+        except :
+            print("ERROR : SQL Query -> " + sql_query)
+
+    return redirect("/suppliers/")
+
 def showSales(request):
     cursor = connection.cursor()
     cursor.execute("SELECT sale_id,customer_name,employee_name, sale_date, product_name, quantity_sold FROM sales NATURAL JOIN sale_items NATURAL JOIN (SELECT product_id, product_name   FROM products) AS a NATURAL JOIN (SELECT customer_id, customer_name FROM customers) AS b NATURAL LEFT JOIN (SELECT employee_name, employee_id FROM employees) AS c;")
