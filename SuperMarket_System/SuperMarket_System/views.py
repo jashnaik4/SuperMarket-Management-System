@@ -149,7 +149,7 @@ def updateSupplier(request,supplier_id):
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM suppliers WHERE supplier_id = " + str(supplier_id))
     supplier = cursor.fetchone()
-    return render(request, 'suppliers_update.html', {"Supplier": supplier})
+    return render(request, 'suppliers_update.html', {"Suppliers": supplier})
 
 def commitSupplierUpdate(request, id):
     cursor = connection.cursor()
