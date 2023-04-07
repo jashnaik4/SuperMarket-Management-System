@@ -45,4 +45,10 @@ urlpatterns = [
     path('sale_report/', views.showSales),
     path('inventory_report/', views.showInventoryReport),
     path('employee_report/', views.showEmployeeReport),
+
+    path('sales/', views.showSalesNew),
+    path('sales/another_product/<int:sale_id>', views.addNewProductSALES),
+
+    path('purchases/', views.showPurchase),
+    path('purchases/another_product/<int:purchase_id>', views.addNewProductPURCHASES),
 ]

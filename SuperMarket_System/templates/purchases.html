@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block BASE_HTML %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Purchase Records</h1>
+    <div class="btn-toolbar mb-2 mb-md-0"></div>
+</div>
+    <form action ="/purchases/" method = "post">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="purchase_id">Purchase ID</label>
+          <input type="number" class="form-control" id="purchase_id" name="purchase_id" placeholder = "Serial No." >
+        </div><br>
+        <div class="form-group">
+          <label for="purchase_date">Purchase Date</label>
+          <input type="text" class="form-control" id="purchase_date" name="purchase_date" placeholder="YYYY-MM-DD" >
+        </div><br>
+        <div class="form-group">
+          <label for="supplier_id">Supplier ID</label>
+          <input type="number" class="form-control" id="supplier_id" name="supplier_id"  value = "Serial No.">
+        </div><br>
+        <div class="form-group">
+          <label for="product_id">Product ID</label>
+          <input type="number" class="form-control" id="product_id" name="product_id"  value = "Serial No.">
+        </div><br>
+        <div class="form-group">
+          <label for="quantity_purchased"> Quantity Purchased</label>
+          <input type="number" class="form-control" id="quantity_purchased" name="quantity_purchased" value ="Serial No.">
+        </div><br>
+        <button type="submit" class="btn btn-danger mb-2" name = "commit_change"> Record Purchase </button>
+        <button type="submit" class="btn btn-primary mb-2" name = "add_another_product"> Add Another Product </button>
+    </form>
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Purchase Records in Database</h1>
+    <div class="btn-toolbar mb-2 mb-md-0"></div>
+</div>
+
+<div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th scope="col">Purchase ID #</th>
+              <th scope="col">Product Name</th>
+              <th scope="col">Supplier Name</th>
+              <th scope="col">Purchase Date</th>
+                <th scope="col">Quantity Purchased</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for PurchaseRecord in PurchaseRecord%}
+            <tr>
+              <td>{{PurchaseRecord.0}}</td>
+              <td>{{PurchaseRecord.1}}</td>
+              <td>{{PurchaseRecord.2}}</td>
+              <td>{{PurchaseRecord.3}}</td>
+                <td>{{PurchaseRecord.4}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+</div>
+{% endblock %}

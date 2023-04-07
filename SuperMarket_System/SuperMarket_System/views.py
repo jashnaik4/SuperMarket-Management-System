@@ -181,3 +181,101 @@ def showEmployeeReport(request):
     cursor.execute("SELECT * FROM employees NATURAL LEFT JOIN (SELECT employee_id, count(DISTINCT(sale_id))as number_of_sales, sum(revenue) AS cumulative_sales FROM sales NATURAL JOIN (SELECT sale_id, sum(price* quantity_sold) as revenue FROM sale_items NATURAL JOIN products GROUP BY sale_id) AS b GROUP BY employee_id) AS b;")
     result = cursor.fetchall()
     return render(request, 'employee_report.html', {'EmployeeReport': result})
+
+def showSalesNew(request):
+    cursor = connection.cursor()
+    if request.method == 'POST':
+
+        if request.POST["employee_id"] == '':
+            employee_id = "NULL"
+        else:
+            employee_id = str(request.POST["employee_id"])
+
+        sql_query1 = "INSERT INTO sales VALUES(" + request.POST["sale_id"] + ", '" + request.POST["sale_date"]+ "', " + request.POST["customer_id"]+ ", " + employee_id +")"
+        sql_query2 = "INSERT INTO sale_items VALUES("+ request.POST["sale_id"]+ ", "+ request.POST["product_id"] + ", " +request.POST["quantity_sold"]+")"
+        try:
+            cursor.execute(sql_query1)
+        except:
+            print("ERROR : SQL Query -> " + sql_query1)
+        try:
+            cursor.execute(sql_query2)
+        except:
+            print("ERROR : SQL Query -> " + sql_query2)
+
+        if "commit_change" in request.POST :
+            return redirect("/sales/")
+        else :
+            return redirect("/sales/another_product/" + request.POST["sale_id"] )
+
+    cursor.execute("SELECT sale_id,customer_name,employee_name, sale_date, product_name, quantity_sold FROM sales NATURAL JOIN sale_items NATURAL JOIN (SELECT product_id, product_name   FROM products) AS a NATURAL JOIN (SELECT customer_id, customer_name FROM customers) AS b NATURAL LEFT JOIN (SELECT employee_name, employee_id FROM employees) AS c;")
+    result = cursor.fetchall()
+    return render(request, 'sales.html', {'SaleRecord': result})
+
+def addNewProductSALES(request, sale_id) :
+    cursor = connection.cursor()
+    if request.method == 'POST':
+        sql_query = "INSERT INTO sale_items VALUES(" + str(sale_id) + ", " + request.POST["product_id"] + ", " + request.POST["quantity_sold"] + ")"
+        try:
+            cursor.execute(sql_query)
+        except:
+            print("ERROR : SQL Query -> " + sql_query)
+        if "commit_change" in request.POST :
+            return redirect("/sales/")
+        else:
+            return redirect("/sales/another_product/" + str(sale_id))
+
+    cursor.execute("SELECT * FROM sales WHERE sale_id = " + str(sale_id))
+    result = cursor.fetchone()
+    cursor.execute("SELECT sale_id,customer_name,employee_name, sale_date, product_name, quantity_sold FROM sales NATURAL JOIN sale_items NATURAL JOIN (SELECT product_id, product_name   FROM products) AS a NATURAL JOIN (SELECT customer_id, customer_name FROM customers) AS b NATURAL LEFT JOIN (SELECT employee_name, employee_id FROM employees) AS c;")
+    result1 = cursor.fetchall()
+    return render(request, 'sales_add_another_product.html', {'SaleRecord': result1, "SALE": result})
+
+
+def showPurchase(request):
+    cursor = connection.cursor()
+    if request.method == 'POST':
+
+        sql_query1 = "INSERT INTO purchases VALUES(" + request.POST["purchase_id"] + ", '" + request.POST["purchase_date"]+ "', " + request.POST["supplier_id"]+ ")"
+        sql_query2 = "INSERT INTO purchase_items VALUES("+ request.POST["purchase_id"]+ ", "+ request.POST["product_id"] + ", " +request.POST["quantity_purchased"]+")"
+        try:
+            cursor.execute(sql_query1)
+        except:
+            print("ERROR : SQL Query -> " + sql_query1)
+        try:
+            cursor.execute(sql_query2)
+        except:
+            print("ERROR : SQL Query -> " + sql_query2)
+
+        if "commit_change" in request.POST :
+            return redirect("/purchases/")
+        else :
+            return redirect("/purchases/another_product/" + request.POST["purchase_id"] )
+
+    cursor.execute("SELECT purchase_id,product_name,supplier_name, purchase_date, quantity_purchased FROM purchases NATURAL JOIN purchase_items NATURAL JOIN (SELECT product_id, product_name   FROM products) AS a NATURAL JOIN (SELECT supplier_id, supplier_name FROM suppliers) AS b;")
+    result = cursor.fetchall()
+    return render(request, 'purchases.html', {'PurchaseRecord': result})
+
+
+def addNewProductPURCHASES(request, purchase_id) :
+    cursor = connection.cursor()
+    if request.method == 'POST':
+        sql_query = "INSERT INTO purchase_items VALUES(" + str(purchase_id) + ", " + request.POST["product_id"] + ", " + request.POST["quantity_purchased"] + ")"
+        try:
+            cursor.execute(sql_query)
+        except:
+            print("ERROR : SQL Query -> " + sql_query)
+        if "commit_change" in request.POST :
+            return redirect("/purchases/")
+        else:
+            return redirect("/purchases/another_product/" + str(purchase_id))
+
+    cursor.execute("SELECT * FROM purchases WHERE purchase_id = " + str(purchase_id))
+    result = cursor.fetchone()
+    cursor.execute("SELECT purchase_id,product_name,supplier_name, purchase_date, quantity_purchased FROM purchases NATURAL JOIN purchase_items NATURAL JOIN (SELECT product_id, product_name   FROM products) AS a NATURAL JOIN (SELECT supplier_id, supplier_name FROM suppliers) AS b;")
+    result1 = cursor.fetchall()
+    return render(request, 'purchases_add_another_product.html', {'PurchaseRecord': result1, "PURCHASE": result})
+
+
+
+
+
