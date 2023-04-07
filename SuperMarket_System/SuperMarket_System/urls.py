@@ -23,5 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.showProducts),
     path('customers/', views.showCustomers),
-    path('employees/', views.showEmployees)
+    path('customers/delete_customer/<int:customer_id>', views.deleteCustomer),
+    path('customers/update_customer/<int:customer_id>', views.updateCustomer),
+    path('customers/update_commit/<int:id>', views.commitUpdate),
 ]
