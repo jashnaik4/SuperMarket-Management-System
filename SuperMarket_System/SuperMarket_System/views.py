@@ -23,3 +23,9 @@ def showCustomers(request):
     cursor.execute("SELECT * FROM customers")
     results = cursor.fetchall()
     return render(request, 'customers.html', {'Customers': results})
+
+def showEmployees(request):
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM employees")
+    results = cursor.fetchall()
+    return render(request, 'employees.html', {'Employees': results})
