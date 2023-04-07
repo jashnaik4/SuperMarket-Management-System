@@ -61,7 +61,7 @@ def showEmployees(request):
     cursor = connection.cursor()
     if request.method == 'POST':
         # sql_query = "INSERT INTO customers VALUES(" + request.POST["c_id"] +", '" + request.POST["name"] + "', '" +request.POST["address"] + "', " + request.POST["number"]+")"
-        sql_query = "INSERT INTO employees VALUES(" + request.POST["employee_id"] + ", '" + request.POST["name"] + "', '" +request.POST["address"] + "', " + request.POST["number"] + "', " +request.POST["job_position"]+")"
+        sql_query = "INSERT INTO employees VALUES(" + request.POST["employee_id"] + ", '" + request.POST["name"] + "', '" +request.POST["address"] + "', " + request.POST["number"] + ", '" +request.POST["job_position"]+"')"
         try :
             cursor.execute(sql_query)
         except :
@@ -85,7 +85,7 @@ def deleteEmployees(request,employee_id):
 def commitEmpUpdate(request, id):
     cursor = connection.cursor()
     if request.method == 'POST':
-        sql_query = "UPDATE  SET employees_name = '" + request.POST["name"] + "', address =  '" +request.POST["address"] + "', contact_information = " + request.POST["number"] + "',job_position =  " +request.POST["job_position"] + " WHERE employee_id = " + str(id)
+        sql_query = "UPDATE employees SET employee_name = '" + request.POST["name"] + "', address =  '" +request.POST["address"] + "', contact_information = " + request.POST["number"] + ", job_position =  '" +request.POST["job_position"] + "' WHERE employee_id = " + str(id)
         try:
             cursor.execute(sql_query)
         except:

@@ -27,7 +27,7 @@
         </div><br>
           <div class="form-group">
           <label for="job_position">Job Position</label>
-          <textarea class="form-control" id="job_position" rows="1" name="position" placeholder="Eg. Salesman"></textarea>
+          <textarea class="form-control" id="job_position" rows="1" name="job_position" placeholder="Eg. Salesman"></textarea>
         </div><br>
         <button type="submit" class="btn btn-primary mb-2">Add Employee to Database</button>
       </form>
@@ -53,8 +53,8 @@
               <td>{{Employees.2}}</td>
               <td>{{Employees.3}}</td>
               <td>{{Employees.4}}</td>
-              <td><a href="/employees/delete_customer/{{Employees.0}}" class="btn btn-danger md-sm"> Delete </a>
-                  <a href="/employees/update_customer/{{Employees.0}}" class="btn btn-success md-sm"> Update </a>
+              <td><a href="/employees/delete_employee/{{Employees.0}}" class="btn btn-danger md-sm"> Delete </a>
+                  <a href="/employees/update_employee/{{Employees.0}}" class="btn btn-success md-sm"> Update </a>
             </tr>
             {% endfor %}
           </tbody>
