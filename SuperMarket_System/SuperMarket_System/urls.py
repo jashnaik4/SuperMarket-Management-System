@@ -33,9 +33,9 @@ urlpatterns = [
     path('employees/update_commit/<int:id>', views.commitEmpUpdate),
 
     path('products/', views.showProductsNew),
-    # path('products/delete_product/<int:product_id>', views.deleteProduct),
-    # path('customers/update_product/<int:product_id>', views.updateProduct),
-    # path('products/update_commit/<int:id>', views.commitProductUpdate),
+    path('products/delete_product/<int:product_id>', views.deleteProduct),
+    path('products/update_product/<int:product_id>', views.updateProduct),
+    path('products/update_commit/<int:id>', views.commitProductUpdate),
 
     path('sale_report/', views.showSales),
     path('inventory_report/', views.showInventoryReport),

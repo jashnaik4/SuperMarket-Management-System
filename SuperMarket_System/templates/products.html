@@ -23,11 +23,11 @@
         </div><br>
         <div class="form-group">
           <label for="number">Price</label>
-          <input type="number" class="form-control" id="number" name="number" placeholder="100.00">
+          <input type="text" class="form-control" id="number" name="number" placeholder="100.00">
         </div><br>
         <div class="form-group">
           <label for="quantity">Quantity</label>
-          <input type="number" class="form-control" id="quantity" name="quantity" placeholder="100.00">
+          <input type="text" class="form-control" id="quantity" name="quantity" placeholder="100.00">
         </div><br>
         <button type="submit" class="btn btn-primary mb-2">Add Product to Database</button>
       </form>
@@ -45,14 +45,14 @@
             </tr>
           </thead>
           <tbody>
-            {% for Products in Product%}
+            {% for Products in Products%}
             <tr>
               <td>{{Products.0}}</td>
               <td>{{Products.1}}</td>
               <td>{{Products.2}}</td>
               <td>{{Products.3}}</td>
               <td><a href="/products/delete_product/{{Products.0}}" class="btn btn-danger md-sm"> Delete </a>
-                  <a href="/products/update_products/{{Products.0}}" class="btn btn-success md-sm"> Update </a>
+                  <a href="/products/update_product/{{Products.0}}" class="btn btn-success md-sm"> Update </a>
             </tr>
             {% endfor %}
           </tbody>

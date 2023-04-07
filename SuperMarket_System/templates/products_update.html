@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block BASE_HTML %}
+
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Update Product</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+        </div>
+      </div>
+      <form action ="/products/update_commit/{{Products.0}}" method = "post">
+        {% csrf_token %}
+  <div class="form-group">
+    <label for="p_id">Product ID</label>
+      <input type="text" class="form-control" id="p_id" name="p_id" placeholder = "{{Products.0}}" disabled>
+  </div><br>
+        <div class="form-group">
+          <label for="name">Product Name</label>
+          <input type="text" class="form-control" id="name" name="name" value="{{Products.1}}" >
+        </div><br>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <input type="text" class="form-control" id="description" name="description"  value = "{{Products.2}}">
+        </div><br>
+        <div class="form-group">
+          <label for="number">Price</label>
+          <input type="number" class="form-control" id="number" name="number" value ="{{Products.3}}">
+        </div><br>
+        <div class="form-group">
+          <label for="quantity">Quantity</label>
+          <input type="text" class="form-control" id="quantity" name="quantity" value ="{{Products.4}}">
+        </div><br>
+        <button type="submit" class="btn btn-success mb-2">Update Product</button>
+      </form>
+{% endblock %}

@@ -61,7 +61,7 @@ def showEmployees(request):
     cursor = connection.cursor()
     if request.method == 'POST':
         # sql_query = "INSERT INTO customers VALUES(" + request.POST["c_id"] +", '" + request.POST["name"] + "', '" +request.POST["address"] + "', " + request.POST["number"]+")"
-        sql_query = "INSERT INTO employees VALUES(" + request.POST["employee_id"] + ", '" + request.POST["name"] + "', '" +request.POST["address"] + "', " + request.POST["number"] + ", '" +request.POST["job_position"]+"')"
+        sql_query = "INSERT INTO employees VALUES(" + request.POST["employee_id"] + ", '" + request.POST["name"] + "', '" +request.POST["address"] + "', " + request.POST["number"] + "', " +request.POST["job_position"]+")"
         try :
             cursor.execute(sql_query)
         except :
@@ -85,7 +85,7 @@ def deleteEmployees(request,employee_id):
 def commitEmpUpdate(request, id):
     cursor = connection.cursor()
     if request.method == 'POST':
-        sql_query = "UPDATE employees SET employee_name = '" + request.POST["name"] + "', address =  '" +request.POST["address"] + "', contact_information = " + request.POST["number"] + ", job_position =  '" +request.POST["job_position"] + "' WHERE employee_id = " + str(id)
+        sql_query = "UPDATE  SET employees_name = '" + request.POST["name"] + "', address =  '" +request.POST["address"] + "', contact_information = " + request.POST["number"] + "',job_position =  " +request.POST["job_position"] + " WHERE employee_id = " + str(id)
         try:
             cursor.execute(sql_query)
         except:
@@ -96,7 +96,7 @@ def commitEmpUpdate(request, id):
 def showProductsNew(request):
     cursor = connection.cursor()
     if request.method == 'POST':
-        sql_query = "INSERT INTO products VALUES(" + request.POST["p_id"] +", '" + request.POST["name"] + "', '" +request.POST["description"] + "', " + request.POST["number"]+"', " + request.POST["quantity"]+")"
+        sql_query = "INSERT INTO products VALUES(" + request.POST["p_id"] +", '" + request.POST["name"] + "', '" +request.POST["description"] + "', '" + request.POST["number"]+"', " + request.POST["quantity"]+")"
         try :
             cursor.execute(sql_query)
         except :
@@ -105,6 +105,27 @@ def showProductsNew(request):
     results = cursor.fetchall()
     return render(request, 'products.html', {'Products': results})
 
+def updateProduct(request,product_id):
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM products WHERE product_id = " + str(product_id))
+    product = cursor.fetchone()
+    return render(request, 'products_update.html', {"Products": product})
+
+def deleteProduct(request,product_id):
+    cursor = connection.cursor()
+    sql_query = "DELETE FROM products WHERE product_id = " + str(product_id)
+    cursor.execute(sql_query)
+    return redirect("/products/")
+
+def commitProductUpdate(request, id):
+    cursor = connection.cursor()
+    if request.method == 'POST':
+        sql_query = "UPDATE products SET product_name = '" + request.POST["name"] + "', description =  '" +request.POST["description"] + "', price = " + request.POST["number"] + "', quantity =  " +request.POST["quantity"] + " WHERE product_id = " + str(id)
+        try:
+            cursor.execute(sql_query)
+        except:
+            print("ERROR : SQL Query -> " + sql_query)
+    return redirect("/products/")
 
 def showSales(request):
     cursor = connection.cursor()
