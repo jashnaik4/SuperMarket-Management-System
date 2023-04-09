@@ -11,23 +11,23 @@
         {% csrf_token %}
   <div class="form-group">
     <label for="p_id">Product ID</label>
-      <input type="text" class="form-control" id="p_id" name="p_id" placeholder="Serial No.">
+      <input type="text" class="form-control" id="p_id" name="p_id" placeholder="Serial No." required>
   </div><br>
         <div class="form-group">
           <label for="name">Product Name</label>
-          <input type="text" class="form-control" id="name" name="name" placeholder="Apple">
+          <input type="text" class="form-control" id="name" name="name" placeholder="Apple" required>
         </div><br>
         <div class="form-group">
           <label for="description">Description</label>
-          <input type="text" class="form-control" id="description" name="description"  placeholder="Eg. Fruit">
+          <input type="text" class="form-control" id="description" name="description"  placeholder="Eg. Fruit" required>
         </div><br>
         <div class="form-group">
           <label for="number">Price</label>
-          <input type="text" class="form-control" id="number" name="number" placeholder="100.00">
+          <input type="text" class="form-control" id="number" name="number" placeholder="100.00" required>
         </div><br>
         <div class="form-group">
           <label for="quantity">Quantity</label>
-          <input type="text" class="form-control" id="quantity" name="quantity" placeholder="100.00">
+          <input type="text" class="form-control" id="quantity" name="quantity" placeholder="100.00" required>
         </div><br>
         <button type="submit" class="btn btn-primary mb-2">Add Product to Database</button>
       </form>

@@ -9,15 +9,15 @@
         {% csrf_token %}
         <div class="form-group">
           <label for="sale_id">Sale ID</label>
-          <input type="number" class="form-control" id="sale_id" name="sale_id" placeholder = "Serial No." >
+          <input type="number" class="form-control" id="sale_id" name="sale_id" placeholder = "Serial No." required>
         </div><br>
         <div class="form-group">
           <label for="sale_date">Sale Date</label>
-          <input type="text" class="form-control" id="sale_date" name="sale_date" placeholder="YYYY-MM-DD" >
+          <input type="text" class="form-control" id="sale_date" name="sale_date" placeholder="YYYY-MM-DD" required>
         </div><br>
         <div class="form-group">
           <label for="customer_id">Customer ID</label>
-          <input type="number" class="form-control" id="customer_id" name="customer_id"  value = "Serial No.">
+          <input type="number" class="form-control" id="customer_id" name="customer_id"  value = "Serial No." required
         </div><br>
         <div class="form-group">
           <label for="employee_id">Employee ID</label>
@@ -25,15 +25,16 @@
         </div><br>
         <div class="form-group">
           <label for="product_id">Product ID</label>
-          <input type="number" class="form-control" id="product_id" name="product_id"  value = "Serial No.">
+          <input type="number" class="form-control" id="product_id" name="product_id"  value = "Serial No." required>
         </div><br>
         <div class="form-group">
           <label for="quantity_sold"> Quantity Sold</label>
-          <input type="number" class="form-control" id="quantity_sold" name="quantity_sold" value ="Serial No.">
+          <input type="number" class="form-control" id="quantity_sold" name="quantity_sold" value ="Serial No." required>
         </div><br>
         <button type="submit" class="btn btn-danger mb-2" name = "commit_change"> Record Sale </button>
         <button type="submit" class="btn btn-primary mb-2" name = "add_another_product"> Add Another Product </button>
     </form>
+
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Sale Records in Database</h1>

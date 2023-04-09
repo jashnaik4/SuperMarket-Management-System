@@ -9,23 +9,23 @@
         {% csrf_token %}
         <div class="form-group">
           <label for="purchase_id">Purchase ID</label>
-          <input type="number" class="form-control" id="purchase_id" name="purchase_id" placeholder = "Serial No." >
+          <input type="number" class="form-control" id="purchase_id" name="purchase_id" placeholder = "Serial No." required>
         </div><br>
         <div class="form-group">
           <label for="purchase_date">Purchase Date</label>
-          <input type="text" class="form-control" id="purchase_date" name="purchase_date" placeholder="YYYY-MM-DD" >
+          <input type="text" class="form-control" id="purchase_date" name="purchase_date" placeholder="YYYY-MM-DD" required>
         </div><br>
         <div class="form-group">
           <label for="supplier_id">Supplier ID</label>
-          <input type="number" class="form-control" id="supplier_id" name="supplier_id"  value = "Serial No.">
+          <input type="number" class="form-control" id="supplier_id" name="supplier_id"  value = "Serial No." required>
         </div><br>
         <div class="form-group">
           <label for="product_id">Product ID</label>
-          <input type="number" class="form-control" id="product_id" name="product_id"  value = "Serial No.">
+          <input type="number" class="form-control" id="product_id" name="product_id"  value = "Serial No." required>
         </div><br>
         <div class="form-group">
           <label for="quantity_purchased"> Quantity Purchased</label>
-          <input type="number" class="form-control" id="quantity_purchased" name="quantity_purchased" value ="Serial No.">
+          <input type="number" class="form-control" id="quantity_purchased" name="quantity_purchased" value ="Serial No." required>
         </div><br>
         <button type="submit" class="btn btn-danger mb-2" name = "commit_change"> Record Purchase </button>
         <button type="submit" class="btn btn-primary mb-2" name = "add_another_product"> Add Another Product </button>

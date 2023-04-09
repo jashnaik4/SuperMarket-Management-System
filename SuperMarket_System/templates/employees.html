@@ -11,7 +11,7 @@
         {% csrf_token %}
   <div class="form-group">
     <label for="employee_id">Employee ID</label>
-      <input type="text" class="form-control" id="employee_id" name="employee_id" placeholder="Serial No.">
+      <input type="text" class="form-control" id="employee_id" name="employee_id" placeholder="Serial No." required>
   </div><br>
         <div class="form-group">
           <label for="name">Employee Name</label>
@@ -19,15 +19,15 @@
         </div><br>
         <div class="form-group">
           <label for="address">Address</label>
-          <input type="text" class="form-control" id="address" name="address" placeholder="2, VidyaVihar, Pilani">
+          <input type="text" class="form-control" id="address" name="address" placeholder="2, VidyaVihar, Pilani" required>
         </div><br>
         <div class="form-group">
           <label for="number">Contact Info</label>
-          <textarea class="form-control" id="number" rows="1" name="number" placeholder="90XXXX2423"></textarea>
+          <textarea class="form-control" id="number" rows="1" name="number" placeholder="90XXXX2423" required></textarea>
         </div><br>
           <div class="form-group">
           <label for="job_position">Job Position</label>
-          <textarea class="form-control" id="job_position" rows="1" name="job_position" placeholder="Eg. Salesman"></textarea>
+          <textarea class="form-control" id="job_position" rows="1" name="job_position" placeholder="Eg. Salesman" required></textarea>
         </div><br>
         <button type="submit" class="btn btn-primary mb-2">Add Employee to Database</button>
       </form>
