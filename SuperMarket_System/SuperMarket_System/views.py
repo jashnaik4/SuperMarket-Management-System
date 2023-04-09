@@ -16,11 +16,13 @@ def dictfetchall(cursor):
         for row in cursor.fetchall()
     ]
 
+
 def showProducts(request):
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM products")
     results = cursor.fetchall()
     return render(request, 'index.html', {'Products': results})
+
 
 def showCustomers(request):
     cursor = connection.cursor()
@@ -36,6 +38,7 @@ def showCustomers(request):
     results = cursor.fetchall()
     return render(request, 'customers.html', {'Customers': results, 'ERROR_INPUT': error})
 
+
 def deleteCustomer(request,customer_id):
     cursor = connection.cursor()
     sql_query = "DELETE FROM customers WHERE customer_id = " + str(customer_id)
@@ -48,11 +51,13 @@ def deleteCustomer(request,customer_id):
     results = cursor.fetchall()
     return render(request, 'customers.html', {'Customers': results, 'ERROR_DELETE': error})
 
+
 def updateCustomer(request,customer_id):
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM customers WHERE customer_id = " + str(customer_id))
     customer = cursor.fetchone()
     return render(request, 'customers_update.html', {"Customers": customer})
+
 
 def commitUpdate(request, id):
     cursor = connection.cursor()
@@ -68,6 +73,7 @@ def commitUpdate(request, id):
     results = cursor.fetchall()
     return render(request, 'customers.html', {'Customers': results, 'ERROR_UPDATE': error})
 
+
 def showEmployees(request):
     cursor = connection.cursor()
     error = False
@@ -81,11 +87,13 @@ def showEmployees(request):
     results = cursor.fetchall()
     return render(request, 'employees.html', {'Employees': results, 'ERROR_INPUT': error})
 
+
 def updateEmployees(request,employee_id):
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM employees WHERE employee_id = " + str(employee_id))
     employee = cursor.fetchone()
     return render(request, 'employees_update.html', {"Employees": employee})
+
 
 def deleteEmployees(request,employee_id):
     cursor = connection.cursor()
@@ -98,6 +106,7 @@ def deleteEmployees(request,employee_id):
     cursor.execute("SELECT * FROM employees")
     results = cursor.fetchall()
     return render(request, 'employees.html', {'Employees': results, 'ERROR_DELETE': error})
+
 
 def commitEmpUpdate(request, id):
     cursor = connection.cursor()
@@ -112,6 +121,7 @@ def commitEmpUpdate(request, id):
     results = cursor.fetchall()
     return render(request, 'employees.html', {'Employees': results, 'ERROR_UPDATE': error})
 
+
 def showProductsNew(request):
     cursor = connection.cursor()
     error = False
@@ -125,11 +135,13 @@ def showProductsNew(request):
     results = cursor.fetchall()
     return render(request, 'products.html', {'Products': results, 'ERROR_INPUT': error})
 
+
 def updateProduct(request,product_id):
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM products WHERE product_id = " + str(product_id))
     product = cursor.fetchone()
     return render(request, 'products_update.html', {"Products": product})
+
 
 def deleteProduct(request,product_id):
     cursor = connection.cursor()
@@ -143,6 +155,7 @@ def deleteProduct(request,product_id):
     cursor.execute("SELECT * FROM products")
     results = cursor.fetchall()
     return render(request, 'products.html', {'Products': results, 'ERROR_DELETE': error})
+
 
 def commitProductUpdate(request, id):
     cursor = connection.cursor()
@@ -158,6 +171,7 @@ def commitProductUpdate(request, id):
     results = cursor.fetchall()
     return render(request, 'products.html', {'Products': results, 'ERROR_UPDATE': error})
 
+
 def showSuppliers(request):
     cursor = connection.cursor()
     error = False
@@ -171,6 +185,7 @@ def showSuppliers(request):
     results = cursor.fetchall()
     return render(request, 'suppliers.html', {'Suppliers': results, 'ERROR_INPUT': error})
 
+
 def deleteSupplier(request,supplier_id):
     cursor = connection.cursor()
     error = False
@@ -183,11 +198,13 @@ def deleteSupplier(request,supplier_id):
     results = cursor.fetchall()
     return render(request, 'suppliers.html', {'Suppliers': results, 'ERROR_DELETE': error})
 
+
 def updateSupplier(request,supplier_id):
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM suppliers WHERE supplier_id = " + str(supplier_id))
     supplier = cursor.fetchone()
     return render(request, 'suppliers_update.html', {"Suppliers": supplier})
+
 
 def commitSupplierUpdate(request, id):
     cursor = connection.cursor()
@@ -201,6 +218,7 @@ def commitSupplierUpdate(request, id):
     cursor.execute("SELECT * FROM suppliers")
     results = cursor.fetchall()
     return render(request, 'suppliers.html', {'Suppliers': results, 'ERROR_UPDATE': error})
+
 
 def showSales(request):
     cursor = connection.cursor()
@@ -222,6 +240,7 @@ def showEmployeeReport(request):
     result = cursor.fetchall()
     return render(request, 'employee_report.html', {'EmployeeReport': result})
 
+
 def showSalesNew(request):
     cursor = connection.cursor()
     error = False
@@ -234,11 +253,10 @@ def showSalesNew(request):
 
         sql_query1 = "INSERT INTO sales VALUES(" + request.POST["sale_id"] + ", '" + request.POST["sale_date"]+ "', " + request.POST["customer_id"]+ ", " + employee_id +")"
         sql_query2 = "INSERT INTO sale_items (sale_id, product_id, quantity_sold) VALUES("+ request.POST["sale_id"]+ ", "+ request.POST["product_id"] + ", " +request.POST["quantity_sold"]+")"
-        sql_query3 = "SELECT * FROM products WHERE product_id = " + request.POST["product_id"]
+        sql_query3 = "UPDATE products SET quantity_in_stock =quantity_in_stock - " + request.POST["quantity_sold"] + "  WHERE product_id = " + request.POST["product_id"]
 
         try:
             cursor.execute(sql_query3)
-            cursor.fetchone()
             cursor.execute(sql_query1)
             cursor.execute(sql_query2)
         except:
@@ -253,12 +271,15 @@ def showSalesNew(request):
     result = cursor.fetchall()
     return render(request, 'sales.html', {'SaleRecord': result, 'ERROR': error})
 
+
 def addNewProductSALES(request, sale_id) :
     cursor = connection.cursor()
     error = False;
     if request.method == 'POST':
         sql_query = "INSERT INTO sale_items (sale_id, product_id, quantity_sold) VALUES(" + str(sale_id) + ", " + request.POST["product_id"] + ", " + request.POST["quantity_sold"] + ")"
+        sql_query2 = "UPDATE products SET quantity_in_stock =quantity_in_stock - " + request.POST["quantity_sold"] + "  WHERE product_id = " + request.POST["product_id"]
         try:
+            cursor.execute(sql_query2)
             cursor.execute(sql_query)
         except:
             print("ERROR : SQL Query -> " + sql_query)
@@ -278,10 +299,18 @@ def deleteSale(request,unique_id,sale_id):
     sql_query1 = "DELETE FROM sale_items WHERE unique_id = " + str(unique_id)
     sql_query2 = "SELECT COUNT(*) FROM sale_items WHERE sale_id = " + str(sale_id)
     sql_query3 = "DELETE FROM sales WHERE sale_id = " + str(sale_id)
+    sql_query4 = "SELECT product_id, quantity_sold FROM sale_items WHERE unique_id = " + str(unique_id)
 
+    cursor.execute(sql_query4)
+    product_delete = cursor.fetchone()
+    sql_query5 = "UPDATE products SET quantity_in_stock = quantity_in_stock + " + str(product_delete[1])+ " WHERE product_id = " + str(product_delete[0])
     cursor.execute(sql_query1)
-    cursor.execute(sql_query2)
+    try :
+        cursor.execute(sql_query5)
+    except:
+        print ("ERROR: SQL QUERY -> " + sql_query5)
 
+    cursor.execute(sql_query2)
     if (cursor.fetchone()[0] == 0):
         cursor.execute(sql_query3)
     return redirect("/sales/")
@@ -293,12 +322,11 @@ def showPurchase(request):
     if request.method == 'POST':
         sql_query1 = "INSERT INTO purchases VALUES(" + request.POST["purchase_id"] + ", '" + request.POST["purchase_date"]+ "', " + request.POST["supplier_id"]+ ")"
         sql_query2 = "INSERT INTO purchase_items (purchase_id, product_id, quantity_purchased) VALUES("+ request.POST["purchase_id"]+ ", "+ request.POST["product_id"] + ", " +request.POST["quantity_purchased"]+")"
-        sql_query3 = "SELECT * FROM products WHERE product_id = " + request.POST["product_id"]
+        sql_query3 = "UPDATE products SET quantity_in_stock =quantity_in_stock + " + request.POST["quantity_purchased"] + "  WHERE product_id = " + request.POST["product_id"]
         try:
-            cursor.execute(sql_query3)
-            cursor.fetchone()
             cursor.execute(sql_query1)
             cursor.execute(sql_query2)
+            cursor.execute(sql_query3)
         except:
             print("ERROR : SQL Query -> " + sql_query1)
             print("ERROR : SQL Query -> " + sql_query2)
@@ -307,7 +335,7 @@ def showPurchase(request):
         if not error and ("add_another_product" in request.POST) :
             return redirect("/purchases/another_product/" + request.POST["purchase_id"] )
 
-    cursor.execute("SELECT purchase_id,product_name,supplier_name, purchase_date, quantity_purchased, unique_id FROM purchases NATURAL JOIN purchase_items NATURAL JOIN (SELECT product_id, product_name   FROM products) AS a NATURAL JOIN (SELECT supplier_id, supplier_name FROM suppliers) AS b;")
+    cursor.execute("SELECT purchase_id,product_name,supplier_name, purchase_date, quantity_purchased, unique_id FROM purchases NATURAL JOIN purchase_items NATURAL JOIN (SELECT product_id, product_name   FROM products) AS a NATURAL JOIN (SELECT supplier_id, supplier_name FROM suppliers) AS b")
     result = cursor.fetchall()
     return render(request, 'purchases.html', {'PurchaseRecord': result, 'ERROR': error})
 
@@ -316,11 +344,13 @@ def addNewProductPURCHASES(request, purchase_id) :
     cursor = connection.cursor()
     error = False
     if request.method == 'POST':
-        sql_query = "INSERT INTO purchase_items (purchase_id, product_id, quantity_purchased) VALUES(" + str(purchase_id) + ", " + request.POST["product_id"] + ", " + request.POST["quantity_purchased"] + ")"
+        sql_query1 = "INSERT INTO purchase_items (purchase_id, product_id, quantity_purchased) VALUES(" + str(purchase_id) + ", " + request.POST["product_id"] + ", " + request.POST["quantity_purchased"] + ")"
+        sql_query2 = "UPDATE products SET quantity_in_stock =quantity_in_stock + " + request.POST["quantity_purchased"] + "  WHERE product_id = " + request.POST["product_id"]
         try:
-            cursor.execute(sql_query)
+            cursor.execute(sql_query2)
+            cursor.execute(sql_query1)
         except:
-            print("ERROR : SQL Query -> " + sql_query)
+            print("ERROR : SQL Query -> " + sql_query2)
             error = True
 
         if not error and ("add_another_product" in request.POST) :
@@ -335,16 +365,30 @@ def addNewProductPURCHASES(request, purchase_id) :
 
 def deletePurchase(request , unique_id, purchase_id):
     cursor = connection.cursor()
+    error = False
     sql_query1 = "DELETE FROM purchase_items WHERE unique_id = " + str(unique_id)
     sql_query2 = "SELECT COUNT(*) FROM purchase_items WHERE purchase_id = " + str(purchase_id)
     sql_query3 = "DELETE FROM purchases WHERE purchase_id = " + str(purchase_id)
+    sql_query4 = "SELECT product_id, quantity_purchased FROM purchase_items WHERE unique_id = " +str(unique_id)
 
-    cursor.execute(sql_query1)
-    cursor.execute(sql_query2)
+    cursor.execute(sql_query4)
+    product_delete = cursor.fetchone()
+    sql_query5 = "UPDATE products SET quantity_in_stock = quantity_in_stock - " +str(product_delete[1])+ " WHERE product_id = " + str(product_delete[0])
+    try :
+        cursor.execute(sql_query5)
+    except:
+        print("SQL Query :" + sql_query5)
+        error = True
 
-    if (cursor.fetchone()[0] == 0):
-        cursor.execute(sql_query3)
-    return redirect("/purchases/")
+    if not error:
+        cursor.execute(sql_query1)
+        cursor.execute(sql_query2)
+        if (cursor.fetchone()[0] == 0):
+            cursor.execute(sql_query3)
+
+    cursor.execute("SELECT purchase_id,product_name,supplier_name, purchase_date, quantity_purchased, unique_id FROM purchases NATURAL JOIN purchase_items NATURAL JOIN (SELECT product_id, product_name   FROM products) AS a NATURAL JOIN (SELECT supplier_id, supplier_name FROM suppliers) AS b;")
+    result = cursor.fetchall()
+    return render(request, 'purchases.html', {'PurchaseRecord': result, 'ERROR_DELETE': error})
 
 
 

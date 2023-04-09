@@ -40,7 +40,11 @@
         <h1 class="h2">Purchase Records in Database</h1>
     <div class="btn-toolbar mb-2 mb-md-0"></div>
 </div>
-
+{% if ERROR_DELETE == True %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Unable to Delete Purchase</strong> Quantity in stock is less than Quantity made in the purchase, to delete add a purchase to make quantity in stock greater
+    </div>
+{% endif %}
 <div class="table-responsive">
         <table class="table table-striped table-sm">
           <thead>
