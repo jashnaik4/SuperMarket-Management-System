@@ -24,21 +24,29 @@ def showProducts(request):
 
 def showCustomers(request):
     cursor = connection.cursor()
+    error = False
     if request.method == 'POST':
         sql_query = "INSERT INTO customers VALUES(" + request.POST["c_id"] +", '" + request.POST["name"] + "', '" +request.POST["address"] + "', " + request.POST["number"]+")"
         try :
             cursor.execute(sql_query)
         except :
             print("ERROR : SQL Query -> " + sql_query)
+            error = True
     cursor.execute("SELECT * FROM customers")
     results = cursor.fetchall()
-    return render(request, 'customers.html', {'Customers': results})
+    return render(request, 'customers.html', {'Customers': results, 'ERROR_INPUT': error})
 
 def deleteCustomer(request,customer_id):
     cursor = connection.cursor()
     sql_query = "DELETE FROM customers WHERE customer_id = " + str(customer_id)
-    cursor.execute(sql_query)
-    return redirect("/customers/")
+    error = False
+    try :
+        cursor.execute(sql_query)
+    except :
+        error = True
+    cursor.execute("SELECT * FROM customers")
+    results = cursor.fetchall()
+    return render(request, 'customers.html', {'Customers': results, 'ERROR_DELETE': error})
 
 def updateCustomer(request,customer_id):
     cursor = connection.cursor()
@@ -48,27 +56,30 @@ def updateCustomer(request,customer_id):
 
 def commitUpdate(request, id):
     cursor = connection.cursor()
+    error = False
     if request.method == 'POST':
         sql_query = "UPDATE customers SET customer_name = '" + request.POST["name"] + "', address =  '" +request.POST["address"] + "', contact_information = " + request.POST["number"] + " WHERE customer_id = " + str(id)
         try :
             cursor.execute(sql_query)
         except :
             print("ERROR : SQL Query -> " + sql_query)
-
-    return redirect("/customers/")
+            error = True
+    cursor.execute("SELECT * FROM customers")
+    results = cursor.fetchall()
+    return render(request, 'customers.html', {'Customers': results, 'ERROR_UPDATE': error})
 
 def showEmployees(request):
     cursor = connection.cursor()
+    error = False
     if request.method == 'POST':
-        # sql_query = "INSERT INTO customers VALUES(" + request.POST["c_id"] +", '" + request.POST["name"] + "', '" +request.POST["address"] + "', " + request.POST["number"]+")"
         sql_query = "INSERT INTO employees VALUES(" + request.POST["employee_id"] + ", '" + request.POST["name"] + "', '" +request.POST["address"] + "', " + request.POST["number"] + ", '" +request.POST["job_position"]+"')"
         try :
             cursor.execute(sql_query)
         except :
-            print("ERROR : SQL Query -> " + sql_query)
+            error = True
     cursor.execute("SELECT * FROM employees")
     results = cursor.fetchall()
-    return render(request, 'employees.html', {'Employees': results})
+    return render(request, 'employees.html', {'Employees': results, 'ERROR_INPUT': error})
 
 def updateEmployees(request,employee_id):
     cursor = connection.cursor()
@@ -79,31 +90,40 @@ def updateEmployees(request,employee_id):
 def deleteEmployees(request,employee_id):
     cursor = connection.cursor()
     sql_query = "DELETE FROM employees WHERE employee_id = " + str(employee_id)
-    cursor.execute(sql_query)
-    return redirect("/employees/")
+    error = False
+    try :
+        cursor.execute(sql_query)
+    except:
+        error = True
+    cursor.execute("SELECT * FROM employees")
+    results = cursor.fetchall()
+    return render(request, 'employees.html', {'Employees': results, 'ERROR_DELETE': error})
 
 def commitEmpUpdate(request, id):
     cursor = connection.cursor()
+    error = False
     if request.method == 'POST':
-        sql_query = "UPDATE  SET employees_name = '" + request.POST["name"] + "', address =  '" +request.POST["address"] + "', contact_information = " + request.POST["number"] + "',job_position =  " +request.POST["job_position"] + " WHERE employee_id = " + str(id)
+        sql_query = "UPDATE  SET employees_name = '" + request.POST["name"] + "', address =  '" + request.POST["address"] + "', contact_information = " + request.POST["number"] + "',job_position =  " + request.POST["job_position"] + " WHERE employee_id = " + str(id)
         try:
             cursor.execute(sql_query)
         except:
-            print("ERROR : SQL Query -> " + sql_query)
-
-    return redirect("/employees/")
+            error = True
+    cursor.execute("SELECT * FROM employees")
+    results = cursor.fetchall()
+    return render(request, 'employees.html', {'Employees': results, 'ERROR_UPDATE': error})
 
 def showProductsNew(request):
     cursor = connection.cursor()
+    error = False
     if request.method == 'POST':
         sql_query = "INSERT INTO products VALUES(" + request.POST["p_id"] +", '" + request.POST["name"] + "', '" +request.POST["description"] + "', '" + request.POST["number"]+"', " + request.POST["quantity"]+")"
         try :
             cursor.execute(sql_query)
         except :
-            print("ERROR : SQL Query -> " + sql_query)
+            error = True
     cursor.execute("SELECT * FROM products")
     results = cursor.fetchall()
-    return render(request, 'products.html', {'Products': results})
+    return render(request, 'products.html', {'Products': results, 'ERROR_INPUT': error})
 
 def updateProduct(request,product_id):
     cursor = connection.cursor()
@@ -113,37 +133,55 @@ def updateProduct(request,product_id):
 
 def deleteProduct(request,product_id):
     cursor = connection.cursor()
+    error = False
     sql_query = "DELETE FROM products WHERE product_id = " + str(product_id)
-    cursor.execute(sql_query)
-    return redirect("/products/")
+    try :
+        cursor.execute(sql_query)
+    except :
+        error = True
+        print("ERROR: SQL Query ->" + sql_query)
+    cursor.execute("SELECT * FROM products")
+    results = cursor.fetchall()
+    return render(request, 'products.html', {'Products': results, 'ERROR_DELETE': error})
 
 def commitProductUpdate(request, id):
     cursor = connection.cursor()
+    error = False
     if request.method == 'POST':
-        sql_query = "UPDATE products SET product_name = '" + request.POST["name"] + "', description =  '" +request.POST["description"] + "', price = " + request.POST["number"] + "', quantity =  " +request.POST["quantity"] + " WHERE product_id = " + str(id)
+        sql_query = "UPDATE products SET product_name = '" + request.POST["name"] + "', description =  '" +request.POST["description"] + "', price = " + request.POST["number"] + ", quantity_in_stock =  " +request.POST["quantity"] + " WHERE product_id = " + str(id)
         try:
             cursor.execute(sql_query)
         except:
-            print("ERROR : SQL Query -> " + sql_query)
-    return redirect("/products/")
+            error = True
+            print("ERROR: SQL Query ->" + sql_query)
+    cursor.execute("SELECT * FROM products")
+    results = cursor.fetchall()
+    return render(request, 'products.html', {'Products': results, 'ERROR_UPDATE': error})
 
 def showSuppliers(request):
     cursor = connection.cursor()
+    error = False
     if request.method == 'POST':
         sql_query = "INSERT INTO suppliers VALUES(" + request.POST["s_id"] +", '" + request.POST["name"] + "', '" +request.POST["address"] + "', " + request.POST["number"]+")"
         try :
             cursor.execute(sql_query)
         except :
-            print("ERROR : SQL Query -> " + sql_query)
+            error = True
     cursor.execute("SELECT * FROM suppliers")
     results = cursor.fetchall()
-    return render(request, 'suppliers.html', {'Suppliers': results})
+    return render(request, 'suppliers.html', {'Suppliers': results, 'ERROR_INPUT': error})
 
 def deleteSupplier(request,supplier_id):
     cursor = connection.cursor()
+    error = False
     sql_query = "DELETE FROM suppliers WHERE supplier_id = " + str(supplier_id)
-    cursor.execute(sql_query)
-    return redirect("/suppliers/")
+    try:
+        cursor.execute(sql_query)
+    except :
+         error = True
+    cursor.execute("SELECT * FROM suppliers")
+    results = cursor.fetchall()
+    return render(request, 'suppliers.html', {'Suppliers': results, 'ERROR_DELETE': error})
 
 def updateSupplier(request,supplier_id):
     cursor = connection.cursor()
@@ -153,14 +191,16 @@ def updateSupplier(request,supplier_id):
 
 def commitSupplierUpdate(request, id):
     cursor = connection.cursor()
+    error = False
     if request.method == 'POST':
         sql_query = "UPDATE suppliers SET supplier_name = '" + request.POST["name"] + "', address =  '" +request.POST["address"] + "', contact_information = " + request.POST["number"] + " WHERE supplier_id = " + str(id)
         try :
             cursor.execute(sql_query)
         except :
-            print("ERROR : SQL Query -> " + sql_query)
-
-    return redirect("/suppliers/")
+            error = True
+    cursor.execute("SELECT * FROM suppliers")
+    results = cursor.fetchall()
+    return render(request, 'suppliers.html', {'Suppliers': results, 'ERROR_UPDATE': error})
 
 def showSales(request):
     cursor = connection.cursor()

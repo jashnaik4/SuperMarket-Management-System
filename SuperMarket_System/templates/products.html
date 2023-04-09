@@ -7,16 +7,16 @@
         <div class="btn-toolbar mb-2 mb-md-0">
         </div>
       </div>
-{% if ERROR == True %}
+{% if ERROR_INPUT == True %}
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Invalid Inputs</strong> Please check input fields carefully when entering data
+        <strong>Invalid Inputs</strong> Ensure that product id is unique and price > 0 and quantity is non-negative
     </div>
 {% endif %}
       <form action ="/products/" method = "post">
         {% csrf_token %}
   <div class="form-group">
     <label for="p_id">Product ID</label>
-      <input type="text" class="form-control" id="p_id" name="p_id" placeholder="Serial No." required>
+      <input type="number" class="form-control" id="p_id" name="p_id" placeholder="Serial No." required>
   </div><br>
         <div class="form-group">
           <label for="name">Product Name</label>
@@ -28,16 +28,27 @@
         </div><br>
         <div class="form-group">
           <label for="number">Price</label>
-          <input type="text" class="form-control" id="number" name="number" placeholder="100.00" required>
+          <input type="number" class="form-control" id="number" name="number" placeholder="100.00" required>
         </div><br>
         <div class="form-group">
           <label for="quantity">Quantity</label>
-          <input type="text" class="form-control" id="quantity" name="quantity" placeholder="100.00" required>
+          <input type="number" class="form-control" id="quantity" name="quantity" placeholder="100.00" required>
         </div><br>
         <button type="submit" class="btn btn-primary mb-2">Add Product to Database</button>
       </form>
       <div>
       <h2>Products in Database</h2>
+          {% if ERROR_DELETE == True %}
+             <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Unable to Delete</strong> Product must be in some purchases or sales, remove these purchases/sales from purchases/sales site to delete this product
+             </div>
+          {% endif %}
+
+          {% if ERROR_UPDATE == True %}
+             <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Unable to Update</strong> Please ensure that the price is positive and quantity is non-negative
+             </div>
+          {% endif %}
       <div class="table-responsive">
         <table class="table table-striped table-sm">
           <thead>

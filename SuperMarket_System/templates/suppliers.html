@@ -7,11 +7,16 @@
         <div class="btn-toolbar mb-2 mb-md-0">
         </div>
       </div>
+{% if ERROR_INPUT == True %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Invalid Inputs</strong> Please ensure that the contact information is 10 digit number and doesn't start from 0 and Supplier ID is unique
+    </div>
+{% endif %}
       <form action ="/suppliers/" method = "post">
         {% csrf_token %}
   <div class="form-group">
     <label for="s_id">Supplier ID</label>
-      <input type="text" class="form-control" id="s_id" name="s_id" placeholder="Serial No." required>
+      <input type="number" class="form-control" id="s_id" name="s_id" placeholder="Serial No." required>
   </div><br>
         <div class="form-group">
           <label for="name">Supplier Name</label>
@@ -23,12 +28,23 @@
         </div><br>
         <div class="form-group">
           <label for="number">Contact Info</label>
-          <textarea class="form-control" id="number" rows="1" name="number" placeholder="90XXXX2423" required></textarea>
+          <input type="number" class="form-control" id="number" rows="1" name="number" placeholder="90XXXX2423" required></input>
         </div><br>
         <button type="submit" class="btn btn-primary mb-2">Add Supplier to Database</button>
       </form>
       <div>
       <h2>Suppliers in Database</h2>
+          {% if ERROR == True %}
+             <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Unable to Delete</strong> Supplier must be in some purchases, remove these purchases from purchases site to delete this supplier
+             </div>
+          {% endif %}
+
+          {% if ERROR_UPDATE == True %}
+             <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Unable to Update</strong> Please ensure that the contact information is 10 digit number and doesn't start from 0
+             </div>
+          {% endif %}
       <div class="table-responsive">
         <table class="table table-striped table-sm">
           <thead>
@@ -55,3 +71,4 @@
         </table></div>
       </div>
 {% endblock %}
+

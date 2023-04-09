@@ -7,6 +7,11 @@
         <div class="btn-toolbar mb-2 mb-md-0">
         </div>
       </div>
+{% if ERROR_INPUT == True %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Invalid Inputs</strong> Please ensure that the contact information is 10 digit number and doesn't start from 0 and that Customer ID is unique
+    </div>
+{% endif %}
       <form action ="/customers/" method = "post">
         {% csrf_token %}
   <div class="form-group">
@@ -29,6 +34,16 @@
       </form>
       <div>
       <h2>Customers in Database</h2>
+          {% if ERROR_DELETE == True %}
+             <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Unable to Delete</strong> Customer must have some Sales, remove these sales from sales site to delete this customer
+             </div>
+          {% endif %}
+          {% if ERROR_UPDATE == True %}
+             <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Unable to Update</strong> Please ensure that the contact information is 10 digit number and doesn't start from 0
+             </div>
+          {% endif %}
       <div class="table-responsive">
         <table class="table table-striped table-sm">
           <thead>
