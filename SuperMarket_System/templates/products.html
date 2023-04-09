@@ -7,6 +7,11 @@
         <div class="btn-toolbar mb-2 mb-md-0">
         </div>
       </div>
+{% if ERROR == True %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Invalid Inputs</strong> Please check input fields carefully when entering data
+    </div>
+{% endif %}
       <form action ="/products/" method = "post">
         {% csrf_token %}
   <div class="form-group">

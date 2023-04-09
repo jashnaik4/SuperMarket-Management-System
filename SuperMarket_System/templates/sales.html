@@ -5,6 +5,11 @@
         <h1 class="h2">Sale Records</h1>
     <div class="btn-toolbar mb-2 mb-md-0"></div>
 </div>
+{% if ERROR == True %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Invalid Inputs</strong> Please check input fields carefully when entering data
+    </div>
+{% endif %}
     <form action ="/sales/" method = "post">
         {% csrf_token %}
         <div class="form-group">
@@ -17,7 +22,7 @@
         </div><br>
         <div class="form-group">
           <label for="customer_id">Customer ID</label>
-          <input type="number" class="form-control" id="customer_id" name="customer_id"  value = "Serial No." required
+          <input type="number" class="form-control" id="customer_id" name="customer_id"  value = "Serial No." required>
         </div><br>
         <div class="form-group">
           <label for="employee_id">Employee ID</label>
@@ -32,7 +37,7 @@
           <input type="number" class="form-control" id="quantity_sold" name="quantity_sold" value ="Serial No." required>
         </div><br>
         <button type="submit" class="btn btn-danger mb-2" name = "commit_change"> Record Sale </button>
-        <button type="submit" class="btn btn-primary mb-2" name = "add_another_product"> Add Another Product </button>
+        <button type="submit" class="btn btn-primary mb-2" name = "add_another_product"> Add More Products </button>
     </form>
 
 
