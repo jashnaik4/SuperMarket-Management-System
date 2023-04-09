@@ -56,6 +56,7 @@
               <th scope="col">Sale Date</th>
               <th scope="col">Product Name</th>
                 <th scope="col">Quantity Sold</th>
+                <th scope="col">Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -67,6 +68,7 @@
               <td>{{SaleRecord.3}}</td>
                 <td>{{SaleRecord.4}}</td>
                 <td>{{SaleRecord.5}}</td>
+                <td><a href="/sales/delete_sale/{{SaleRecord.6}}/{{SaleRecord.0}}" class="btn btn-danger md-sm"> Delete </a></td>
             </tr>
             {% endfor %}
           </tbody>

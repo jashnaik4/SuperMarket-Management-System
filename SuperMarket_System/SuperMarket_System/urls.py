@@ -48,7 +48,9 @@ urlpatterns = [
 
     path('sales/', views.showSalesNew),
     path('sales/another_product/<int:sale_id>', views.addNewProductSALES),
+    path('sales/delete_sale/<int:unique_id>/<int:sale_id>', views.deleteSale),
 
     path('purchases/', views.showPurchase),
     path('purchases/another_product/<int:purchase_id>', views.addNewProductPURCHASES),
+    path('purchases/delete_purchase/<int:unique_id>/<int:purchase_id>', views.deletePurchase),
 ]

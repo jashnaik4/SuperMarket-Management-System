@@ -50,6 +50,7 @@
               <th scope="col">Supplier Name</th>
               <th scope="col">Purchase Date</th>
                 <th scope="col">Quantity Purchased</th>
+                <th scope="col">Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -60,6 +61,7 @@
               <td>{{PurchaseRecord.2}}</td>
               <td>{{PurchaseRecord.3}}</td>
                 <td>{{PurchaseRecord.4}}</td>
+                <td><a href="/purchases/delete_purchase/{{PurchaseRecord.5}}/{{PurchaseRecord.0}}" class="btn btn-danger md-sm"> Delete </a></td>
             </tr>
             {% endfor %}
           </tbody>

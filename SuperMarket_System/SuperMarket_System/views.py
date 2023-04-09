@@ -193,7 +193,7 @@ def showSalesNew(request):
             employee_id = str(request.POST["employee_id"])
 
         sql_query1 = "INSERT INTO sales VALUES(" + request.POST["sale_id"] + ", '" + request.POST["sale_date"]+ "', " + request.POST["customer_id"]+ ", " + employee_id +")"
-        sql_query2 = "INSERT INTO sale_items VALUES("+ request.POST["sale_id"]+ ", "+ request.POST["product_id"] + ", " +request.POST["quantity_sold"]+")"
+        sql_query2 = "INSERT INTO sale_items (sale_id, product_id, quantity_sold) VALUES("+ request.POST["sale_id"]+ ", "+ request.POST["product_id"] + ", " +request.POST["quantity_sold"]+")"
         sql_query3 = "SELECT * FROM products WHERE product_id = " + request.POST["product_id"]
 
         try:
@@ -209,7 +209,7 @@ def showSalesNew(request):
         if not error and ("add_another_product" in request.POST) :
             return redirect("/sales/another_product/" + request.POST["sale_id"] )
 
-    cursor.execute("SELECT sale_id,customer_name,employee_name, sale_date, product_name, quantity_sold FROM sales NATURAL JOIN sale_items NATURAL JOIN (SELECT product_id, product_name   FROM products) AS a NATURAL JOIN (SELECT customer_id, customer_name FROM customers) AS b NATURAL LEFT JOIN (SELECT employee_name, employee_id FROM employees) AS c;")
+    cursor.execute("SELECT sale_id,customer_name,employee_name, sale_date, product_name, quantity_sold, unique_id FROM sales NATURAL JOIN sale_items NATURAL JOIN (SELECT product_id, product_name   FROM products) AS a NATURAL JOIN (SELECT customer_id, customer_name FROM customers) AS b NATURAL LEFT JOIN (SELECT employee_name, employee_id FROM employees) AS c;")
     result = cursor.fetchall()
     return render(request, 'sales.html', {'SaleRecord': result, 'ERROR': error})
 
@@ -217,7 +217,7 @@ def addNewProductSALES(request, sale_id) :
     cursor = connection.cursor()
     error = False;
     if request.method == 'POST':
-        sql_query = "INSERT INTO sale_items VALUES(" + str(sale_id) + ", " + request.POST["product_id"] + ", " + request.POST["quantity_sold"] + ")"
+        sql_query = "INSERT INTO sale_items (sale_id, product_id, quantity_sold) VALUES(" + str(sale_id) + ", " + request.POST["product_id"] + ", " + request.POST["quantity_sold"] + ")"
         try:
             cursor.execute(sql_query)
         except:
@@ -228,9 +228,23 @@ def addNewProductSALES(request, sale_id) :
 
     cursor.execute("SELECT * FROM sales WHERE sale_id = " + str(sale_id))
     result = cursor.fetchone()
-    cursor.execute("SELECT sale_id,customer_name,employee_name, sale_date, product_name, quantity_sold FROM sales NATURAL JOIN sale_items NATURAL JOIN (SELECT product_id, product_name   FROM products) AS a NATURAL JOIN (SELECT customer_id, customer_name FROM customers) AS b NATURAL LEFT JOIN (SELECT employee_name, employee_id FROM employees) AS c;")
+    cursor.execute("SELECT sale_id,customer_name,employee_name, sale_date, product_name, quantity_sold, unique_id FROM sales NATURAL JOIN sale_items NATURAL JOIN (SELECT product_id, product_name   FROM products) AS a NATURAL JOIN (SELECT customer_id, customer_name FROM customers) AS b NATURAL LEFT JOIN (SELECT employee_name, employee_id FROM employees) AS c;")
     result1 = cursor.fetchall()
     return render(request, 'sales_add_another_product.html', {'SaleRecord': result1, "SALE": result, 'ERROR': error})
+
+
+def deleteSale(request,unique_id,sale_id):
+    cursor = connection.cursor()
+    sql_query1 = "DELETE FROM sale_items WHERE unique_id = " + str(unique_id)
+    sql_query2 = "SELECT COUNT(*) FROM sale_items WHERE sale_id = " + str(sale_id)
+    sql_query3 = "DELETE FROM sales WHERE sale_id = " + str(sale_id)
+
+    cursor.execute(sql_query1)
+    cursor.execute(sql_query2)
+
+    if (cursor.fetchone()[0] == 0):
+        cursor.execute(sql_query3)
+    return redirect("/sales/")
 
 
 def showPurchase(request):
@@ -238,7 +252,7 @@ def showPurchase(request):
     error = False
     if request.method == 'POST':
         sql_query1 = "INSERT INTO purchases VALUES(" + request.POST["purchase_id"] + ", '" + request.POST["purchase_date"]+ "', " + request.POST["supplier_id"]+ ")"
-        sql_query2 = "INSERT INTO purchase_items VALUES("+ request.POST["purchase_id"]+ ", "+ request.POST["product_id"] + ", " +request.POST["quantity_purchased"]+")"
+        sql_query2 = "INSERT INTO purchase_items (purchase_id, product_id, quantity_purchased) VALUES("+ request.POST["purchase_id"]+ ", "+ request.POST["product_id"] + ", " +request.POST["quantity_purchased"]+")"
         sql_query3 = "SELECT * FROM products WHERE product_id = " + request.POST["product_id"]
         try:
             cursor.execute(sql_query3)
@@ -253,7 +267,7 @@ def showPurchase(request):
         if not error and ("add_another_product" in request.POST) :
             return redirect("/purchases/another_product/" + request.POST["purchase_id"] )
 
-    cursor.execute("SELECT purchase_id,product_name,supplier_name, purchase_date, quantity_purchased FROM purchases NATURAL JOIN purchase_items NATURAL JOIN (SELECT product_id, product_name   FROM products) AS a NATURAL JOIN (SELECT supplier_id, supplier_name FROM suppliers) AS b;")
+    cursor.execute("SELECT purchase_id,product_name,supplier_name, purchase_date, quantity_purchased, unique_id FROM purchases NATURAL JOIN purchase_items NATURAL JOIN (SELECT product_id, product_name   FROM products) AS a NATURAL JOIN (SELECT supplier_id, supplier_name FROM suppliers) AS b;")
     result = cursor.fetchall()
     return render(request, 'purchases.html', {'PurchaseRecord': result, 'ERROR': error})
 
@@ -262,7 +276,7 @@ def addNewProductPURCHASES(request, purchase_id) :
     cursor = connection.cursor()
     error = False
     if request.method == 'POST':
-        sql_query = "INSERT INTO purchase_items VALUES(" + str(purchase_id) + ", " + request.POST["product_id"] + ", " + request.POST["quantity_purchased"] + ")"
+        sql_query = "INSERT INTO purchase_items (purchase_id, product_id, quantity_purchased) VALUES(" + str(purchase_id) + ", " + request.POST["product_id"] + ", " + request.POST["quantity_purchased"] + ")"
         try:
             cursor.execute(sql_query)
         except:
@@ -274,9 +288,23 @@ def addNewProductPURCHASES(request, purchase_id) :
 
     cursor.execute("SELECT * FROM purchases WHERE purchase_id = " + str(purchase_id))
     result = cursor.fetchone()
-    cursor.execute("SELECT purchase_id,product_name,supplier_name, purchase_date, quantity_purchased FROM purchases NATURAL JOIN purchase_items NATURAL JOIN (SELECT product_id, product_name   FROM products) AS a NATURAL JOIN (SELECT supplier_id, supplier_name FROM suppliers) AS b;")
+    cursor.execute("SELECT purchase_id,product_name,supplier_name, purchase_date, quantity_purchased, unique_id FROM purchases NATURAL JOIN purchase_items NATURAL JOIN (SELECT product_id, product_name   FROM products) AS a NATURAL JOIN (SELECT supplier_id, supplier_name FROM suppliers) AS b;")
     result1 = cursor.fetchall()
     return render(request, 'purchases_add_another_product.html', {'PurchaseRecord': result1, "PURCHASE": result, 'ERROR': error})
+
+
+def deletePurchase(request , unique_id, purchase_id):
+    cursor = connection.cursor()
+    sql_query1 = "DELETE FROM purchase_items WHERE unique_id = " + str(unique_id)
+    sql_query2 = "SELECT COUNT(*) FROM purchase_items WHERE purchase_id = " + str(purchase_id)
+    sql_query3 = "DELETE FROM purchases WHERE purchase_id = " + str(purchase_id)
+
+    cursor.execute(sql_query1)
+    cursor.execute(sql_query2)
+
+    if (cursor.fetchone()[0] == 0):
+        cursor.execute(sql_query3)
+    return redirect("/purchases/")
 
 
 
