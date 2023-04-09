@@ -61,7 +61,7 @@ def showEmployees(request):
     cursor = connection.cursor()
     if request.method == 'POST':
         # sql_query = "INSERT INTO customers VALUES(" + request.POST["c_id"] +", '" + request.POST["name"] + "', '" +request.POST["address"] + "', " + request.POST["number"]+")"
-        sql_query = "INSERT INTO employees VALUES(" + request.POST["employee_id"] + ", '" + request.POST["name"] + "', '" +request.POST["address"] + "', " + request.POST["number"] + "', " +request.POST["job_position"]+")"
+        sql_query = "INSERT INTO employees VALUES(" + request.POST["employee_id"] + ", '" + request.POST["name"] + "', '" +request.POST["address"] + "', " + request.POST["number"] + ", '" +request.POST["job_position"]+"')"
         try :
             cursor.execute(sql_query)
         except :
