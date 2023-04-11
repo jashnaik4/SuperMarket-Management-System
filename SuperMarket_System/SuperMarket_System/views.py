@@ -284,8 +284,8 @@ def addNewProductSALES(request, sale_id) :
         except:
             print("ERROR : SQL Query -> " + sql_query)
             error = True
-        if not error and ("add_another_product" in request.POST):
-            return redirect("/sales/another_product/" + str(sale_id))
+        if not error and ("commit_change" in request.POST):
+            return redirect("/sales/")
 
     cursor.execute("SELECT * FROM sales WHERE sale_id = " + str(sale_id))
     result = cursor.fetchone()
@@ -353,8 +353,8 @@ def addNewProductPURCHASES(request, purchase_id) :
             print("ERROR : SQL Query -> " + sql_query2)
             error = True
 
-        if not error and ("add_another_product" in request.POST) :
-            return redirect("/purchases/another_product/" + str(purchase_id))
+        if not error and ("commit_change" in request.POST) :
+            return redirect("/purchases/")
 
     cursor.execute("SELECT * FROM purchases WHERE purchase_id = " + str(purchase_id))
     result = cursor.fetchone()
