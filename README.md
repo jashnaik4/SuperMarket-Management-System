@@ -6,8 +6,8 @@ Instructions for running the project
 1. Install ‘mysqlclient’ using the pip command in the terminal.
    * ```pip install mysqlclient```
 
-2. Linking an SQL database. The name of the database should be ‘supermarket’.
-   * ``` sql CREATE DATABASE supermarket;```
+2. Linking an SQL database
+   * create a mysql server and run ```Database_Initialization.sql```  query file inside this.
 
    * update settings.py with your username and password. The code is somewhat like this:
     ```python
