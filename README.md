@@ -36,3 +36,4 @@ Instructions for running the project
    * Run your project
      * ```python manage.py runserver```
 
+To run on browser, click on the link http://127.0.0.1:8000 .
